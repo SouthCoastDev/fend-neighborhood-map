@@ -1,9 +1,9 @@
-## FEND Neighborhood Map Project
+# FEND Neighborhood Map Project
 
 ## How to run
 
 
-# Extra Packages Used
+## Extra Packages Used
 
 google-maps-react 2.0.2
 
