@@ -39,24 +39,32 @@ class Map extends Component {
 
       {
         this.props.locations.map((location, index) => (
-          <Marker key={index}   
-                      position = { { lat: location.venueLat, lng: location.venueLng } } 
-                  title = {location.venueName} 
-                      onClick = {(e) => {
-                        this.props.markerClicked( e, { lat: location.venueLat, lng: location.venueLng }, { index } ) } }
-                      //animation = {this.props.locationInfoWindowIdToShow === location.venueId? google.maps.Animation.BOUNCE : google.maps.Animation.DROP } 
+          <Marker 
+            key={index}   
+            position = { { lat: location.venueLat, lng: location.venueLng } } 
+            title = {location.venueName} 
+            onClick = {(e) => {
+              this.props.markerClicked( e, { lat: location.venueLat, lng: location.venueLng }, { index } ) 
+            }}
+            //animation = {this.props.locationInfoWindowIdToShow === location.venueId? google.maps.Animation.BOUNCE : google.maps.Animation.DROP } 
           >
-          {//(this.props.locationInfoWindowIdToShow === location.venueId) && 
-              <InfoWindow  onCloseClick = {(e) => {
-                this.props.toggleInfoWindow(e, { lat: location.venueLat, lng: location.venueLng }, { index }) } }
-              >
-                <InfoWindowContent            
-                  title = {location.venueName} 
-                  latlng = {{lat: location.venueLat, Lng: location.venueLng}}
-                  venueId = {location.venueId}
-                />
-              </InfoWindow>
-            }
+          {
+
+            (this.props.locationInfoWindowIdToShow === location.venueId) && 
+            <InfoWindow  
+              key={index}
+              onCloseClick = {(e) => {
+                this.props.toggleInfoWindow(e, { lat: location.venueLat, lng: location.venueLng }, { index }) 
+              }}
+            >
+              <InfoWindowContent 
+              key={index}           
+                title = {location.venueName} 
+                latlng = {{lat: location.venueLat, Lng: location.venueLng}}
+                venueId = {location.venueId}
+              />
+            </InfoWindow>
+          }
                   }
               }
           </Marker>

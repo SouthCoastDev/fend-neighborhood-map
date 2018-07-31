@@ -5,7 +5,7 @@
 
 ## Extra Packages Used
 
-google-maps-react 2.0.2
+react-google-maps
 
 ## What does it do
 

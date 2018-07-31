@@ -63,10 +63,10 @@ class App extends Component {
         });
 
         this.setState(
-          {//locations:data.response.groups[0].items,
-            locations : venueInfo
-          }
-        )
+           {//locations:data.response.groups[0].items,
+             locations : venueInfo
+           }
+         )
       })
   }
    
