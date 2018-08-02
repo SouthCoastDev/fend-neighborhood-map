@@ -10,10 +10,10 @@ class Map extends Component {
 	mapLocation = (map) =>{
 		
 		var mapNewCenter = map.props.mapCenter
-		console.log(mapNewCenter)
+		console.log(` map locaton : ${mapNewCenter}`)
 		let newMapCenterLat = mapNewCenter.lat
 		let newMapCenterLng = mapNewCenter.lng  
-		//this.props.mapLocationChanged(newMapCenterLat,newMapCenterLng)
+		this.props.mapLocationChanged(newMapCenterLat,newMapCenterLng)
 		console.log(`newLat: ${newMapCenterLat} and newLng ${newMapCenterLng}`)
 	
   }
@@ -28,7 +28,7 @@ class Map extends Component {
                 defaultZoom={15}
                 defaultCenter={mapCenter}
                 options = { {streetViewControl: false, mapTypeControl: false} }
-				onPositionChanged ={ () => { this.mapLocation(this)}}
+				onDragEnd ={ (e) => { this.mapLocation(this)}}
 
 			>
 				

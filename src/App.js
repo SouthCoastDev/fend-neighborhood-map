@@ -31,18 +31,20 @@ class App extends Component {
 	  
   }
   
-  
-
+ 
 
   mapLocationChanged = (newLat,newLng) => {
-    console.log(this.state.mapCenter)
-    this.setState({
-      mapCenter : {lat: newLat , lng : newLng},
-      zoom: this.state.initialZoom
-    })
-    console.log(this.state.mapCenter)
-    fetch(`https://api.foursquare.com/v2/venues/explore?ll=${this.state.mapCenter.lat},${this.state.mapCenter.lng}&query=${this.state.query}&v=20180728&limit=20&intent=browse&radius=700&client_id=3ZMMJ4ILVNNDS1JYMCECBINOWFVCV40STL0OU0XGTRRJ0QZC&client_secret=BLLQ4L2SUYCBZNZODXZRLRIPLMGNN34R5HQUZXHUDZ1VSBJG&X-RateLimit-Remaining`)
+	 console.log(`app BEFORE state for map center: ${this.state.mapCenter.lat} , ${this.state.mapCenter.lng}`) 
+	
+	this.setState({
+		mapCenter : {lat:newLat , lng:newLng}
+	})
+
+    console.log(`app state for map center: ${this.state.mapCenter.lat} , ${this.state.mapCenter.lng}`)
+	console.log(this.state.locations)
+    fetch(`https://api.foursquare.com/v2/venues/explore?ll=${this.state.mapCenter.lat},${this.state.mapCenter.lng}&query=${this.state.query}&v=20180728&limit=20&intent=browse&radius=700&client_id=HL2DKKQVAF2R03TLS5GNWB4WXDTV1FGEZHNRNIN4VTD1V44S&client_secret=GA2DERTJQTIC1ZBE3G3I2UPNRE4I00OS0DR2GYJPE14IGCSJ&X-RateLimit-Remaining`)
     .then(res => res.json())
+	.catch((e) => alert(`Oh no! Something went wrong No places can be found. This is a problem with the Foursquare API Key! The error is: ${e}`))
     .then(data=>{
         let venueInfo = []
         data.response.groups[0].items.forEach(element => {
@@ -60,14 +62,15 @@ class App extends Component {
              locations : venueInfo
            }
          )
-      })
+      }).catch((e) => alert(`Oh no! Something went wrong No places can be found. This is a problem with the Foursquare Data! The error is: ${e}`))
   }
    
   componentDidMount () {
     console.log("component did mount ran....")
     //When the app mounts then get the correct list of venues to show based off of what the user has selected.
-    fetch(`https://api.foursquare.com/v2/venues/explore?ll=${this.state.mapCenter.lat},${this.state.mapCenter.lng}&query=${this.state.query}&v=20180728&limit=20&intent=browse&radius=700&client_id=3ZMMJ4ILVNNDS1JYMCECBINOWFVCV40STL0OU0XGTRRJ0QZC&client_secret=BLLQ4L2SUYCBZNZODXZRLRIPLMGNN34R5HQUZXHUDZ1VSBJG&X-RateLimit-Remaining`)
+    fetch(`https://api.foursquare.com/v2/venues/explore?ll=${this.state.mapCenter.lat},${this.state.mapCenter.lng}&query=${this.state.query}&v=20180728&limit=20&intent=browse&radius=700&client_id=HL2DKKQVAF2R03TLS5GNWB4WXDTV1FGEZHNRNIN4VTD1V44S&client_secret=GA2DERTJQTIC1ZBE3G3I2UPNRE4I00OS0DR2GYJPE14IGCSJ&X-RateLimit-Remaining`)
     .then(res => res.json())
+	.catch((e) => alert(`Oh no! Something went wrong No places can be found. This is a problem with the Foursquare API Key! The error is: ${e}`))
     .then(data=>{
         let venueInfo = []
         data.response.groups[0].items.forEach(element => {
@@ -86,7 +89,7 @@ class App extends Component {
             locations : venueInfo
           }
         )
-      })
+      }).catch((e) => alert(`Oh no! Something went wrong No places can be found. This is a problem with the Foursquare Data! The error is: ${e}`))
 
   }
 
