@@ -16,29 +16,22 @@ class App extends Component {
     query : 'food',
     zoom: 14,
     selectedMarker: '',
+	chosenVenue: '',
     locations: [],
+	filteredLocations : [],
     menuHidden: false,
   }
 
-  markerClicked = (latlng , marker , e) => {
-    this.setState({
-      selectedMarker : marker,
-      mapCenter : latlng 
-    })
-  }
 
-  toggleInfoWindow = (e) => {
-    alert("toggleInfo window clicked")
-    this.setState({
-      selectedMarker: -1,
-      mapCenter: this.state.initialMapLatLng,
-      zoom: this.state.initialZoom
-    })
+  setChosenVenue = () => {
+	  
   }
-
-  toggleMenu = (e) => {
-    document.querySelector('.sideBar').classList.toggle('sideBarOpen')
+  
+  resetChosenVenue = () => {
+	  
   }
+  
+  
 
 
   mapLocationChanged = (newLat,newLng) => {
@@ -83,7 +76,8 @@ class App extends Component {
             venueName : element.venue.name,
             venueAddress : element.venue.location.address,
             venueLat : element.venue.location.lat,
-            venueLng : element.venue.location.lng
+            venueLng : element.venue.location.lng,
+			venuePosition : {lat:element.venue.location.lat,lng:element.venue.location.lng}
           })
         });
 
@@ -122,18 +116,18 @@ class App extends Component {
         </div>
         
         <div id="map" className="map-container" role="application" tabIndex="2">
-        <Map 
-        
-        markerClicked = {this.markerClicked}
-        toggleInfoWindow = {this.toggleInfoWindow}
-        locations = {this.state.locations}
-        containerElement = {<div style={{height:100+'%'}}/>}
-        mapElement = {<div style={{height:100+'%'}}/>}
-        mapLocationChanged = {this.mapLocationChanged}
-        zoom = {this.state.zoom}
-        mapCenter = {this.state.mapCenter}
-  
-        />
+            <Map
+              googleMapURL={"https://maps.googleapis.com/maps/api/js?key="+ "AIzaSyB-9uIpr6zMqh5ivdYUzll0aiPrejC31D0" + "&v=3"}
+              loadingElement = {<div style={{ height: `100%` }} />}
+              containerElement = {<div style={{ height: `100%` }} />}
+              mapElement = {<div style={{ height: `100%` }} />}
+              mapCenter = { this.state.mapCenter }
+              locations = { this.state.locations }
+              selectedMarker = { this.state.chosenVenue }
+              openWindow = { this.setChosenVenue }
+              closeWindow = { this.resetChosenVenue }
+			  mapLocationChanged = { this.mapLocationChanged }
+              />
         </div>
 
         <Footer/>

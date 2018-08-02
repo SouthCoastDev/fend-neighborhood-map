@@ -1,84 +1,58 @@
-import React, { Component } from "react"
-import { withScriptjs, google , withGoogleMap, GoogleMap, Marker , InfoWindow , InfoWindowContent} from "react-google-maps"
+import React, { Component } from 'react'
+import { withScriptjs, withGoogleMap, GoogleMap} from "react-google-maps"
+import CustomMarker from './CustomMarker'
 
+ 			  
 class Map extends Component {
+	
 
-  state = {
-    map : null
+	
+	mapLocation = (map) =>{
+		
+		var mapNewCenter = map.props.mapCenter
+		console.log(mapNewCenter)
+		let newMapCenterLat = mapNewCenter.lat
+		let newMapCenterLng = mapNewCenter.lng  
+		//this.props.mapLocationChanged(newMapCenterLat,newMapCenterLng)
+		console.log(`newLat: ${newMapCenterLat} and newLng ${newMapCenterLng}`)
+	
   }
+	
+    render() {
+        const { mapCenter, locations, selectedMarker, openWindow, closeWindow , mapLocationChanged } = this.props
 
-  mapLoaded(map) {    
-    //if map not null then no need to set it again.
-    if(this.state.map != null){
-      return
+	
+        return (
+            GoogleMap ? (
+            <GoogleMap
+                defaultZoom={15}
+                defaultCenter={mapCenter}
+                options = { {streetViewControl: false, mapTypeControl: false} }
+				onPositionChanged ={ () => { this.mapLocation(this)}}
+
+			>
+				
+                {/*This will iterate over all of the location venues and will populate the map with locations animation and infowindow state will change according to marker/itemlist onClick*/}
+                {locations.map((venue, i) => (
+                    <CustomMarker
+                        key={i}
+                        id={venue.venueId}
+                        position={venue.venuePosition}
+                        title={venue.venueName}
+                        animation={!!selectedMarker && venue.id === selectedMarker.id ? 1 : 2}
+                        openwindow={() => openWindow(venue)}
+                        closewindow={closeWindow}
+                        isOpen={!!selectedMarker && venue.id === selectedMarker.id}
+                        >
+                    </CustomMarker>
+                    ))
+                }
+            </GoogleMap> 
+            ) : (
+                <div><p> Something went wrong! GoogleMaps didn't work! </p></div>
+            )
+        )
     }
-      this.setState({
-        map : map
-      })
-  }
- 
-  mapLocation = () =>{
-    var mapNewCenter = this.state.map.getCenter()
-    let newMapCenterLat = mapNewCenter.lat()
-    let newMapCenterLng = mapNewCenter.lng()   
-    this.props.mapLocationChanged(newMapCenterLat,newMapCenterLng)
-    console.log(`newLat: ${newMapCenterLat} and newLng ${newMapCenterLng}`)
-  }
-
- render() {
-
-    return (
-      
-      <GoogleMap
-        ref={this.mapLoaded.bind(this)}
-        onDragEnd={this.mapLocation.bind(this)}
-        defaultZoom={this.props.zoom}
-        defaultCenter={this.props.mapCenter}
-        options={{streetViewControl:false, mapTypeControl: false}}
-      >
-
-      {
-        this.props.locations.map((location, index) => (
-          <Marker 
-            key={index}   
-            position = { { lat: location.venueLat, lng: location.venueLng } } 
-            title = {location.venueName} 
-            onClick = {(e) => {
-              this.props.markerClicked( e, { lat: location.venueLat, lng: location.venueLng }, { index } ) 
-            }}
-            //animation = {this.props.locationInfoWindowIdToShow === location.venueId? google.maps.Animation.BOUNCE : google.maps.Animation.DROP } 
-          >
-          {
-
-            (this.props.locationInfoWindowIdToShow === location.venueId) && 
-            <InfoWindow  
-              key={index}
-              onCloseClick = {(e) => {
-                this.props.toggleInfoWindow(e, { lat: location.venueLat, lng: location.venueLng }, { index }) 
-              }}
-            >
-              <InfoWindowContent 
-              key={index}           
-                title = {location.venueName} 
-                latlng = {{lat: location.venueLat, Lng: location.venueLng}}
-                venueId = {location.venueId}
-              />
-            </InfoWindow>
-          }
-                  }
-              }
-          </Marker>
-        ))
-      }
-
-      </GoogleMap>
-    )
-  }
 }
 
-export default withGoogleMap(Map)
-
-
-
-
-
+export default withScriptjs(withGoogleMap((Map)))
