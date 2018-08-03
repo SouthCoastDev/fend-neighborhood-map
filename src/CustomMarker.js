@@ -5,13 +5,13 @@ class CustomMarker extends Component {
 
    
     render() {
-        const {i, id, position, title, animation, isOpen, openwindow, closewindow} = this.props
+        const {index, venueId, position, title, animation, isOpen, openwindow, closewindow} = this.props
         
         return (
             
             <Marker
-                key={i}
-                id={id}
+                key={index}
+                id={venueId}
                 position={position}
                 title={title}
                 animation={animation}
@@ -29,3 +29,5 @@ class CustomMarker extends Component {
 }
 
 export default CustomMarker
+
+

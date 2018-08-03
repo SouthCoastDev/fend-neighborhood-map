@@ -7,25 +7,23 @@ class Map extends Component {
 	
 
 	
-	mapLocation = (map) =>{
-		
-		var mapNewCenter = map.props.mapCenter
-		console.log(` map locaton : ${mapNewCenter}`)
-		let newMapCenterLat = mapNewCenter.lat
-		let newMapCenterLng = mapNewCenter.lng  
-		this.props.mapLocationChanged(newMapCenterLat,newMapCenterLng)
-		console.log(`newLat: ${newMapCenterLat} and newLng ${newMapCenterLng}`)
-	
-  }
+	mapLocation = (map) =>{	
+		// var mapNewCenter = map.props.mapCenter
+		// console.log(` map locaton : ${mapNewCenter}`)
+		// let newMapCenterLat = mapNewCenter.lat
+		// let newMapCenterLng = mapNewCenter.lng  
+		// this.props.mapLocationChanged(newMapCenterLat,newMapCenterLng)
+		// console.log(`newLat: ${newMapCenterLat} and newLng ${newMapCenterLng}`)	
+    }
 	
     render() {
-        const { mapCenter, locations, selectedMarker, openWindow, closeWindow , mapLocationChanged } = this.props
+        const { mapCenter, zoom ,locations, selectedMarker, openWindow, closeWindow , mapLocationChanged } = this.props
 
 	
         return (
             GoogleMap ? (
             <GoogleMap
-                defaultZoom={15}
+                defaultZoom={zoom}
                 defaultCenter={mapCenter}
                 options = { {streetViewControl: false, mapTypeControl: false} }
 				onDragEnd ={ (e) => { this.mapLocation(this)}}
@@ -33,9 +31,9 @@ class Map extends Component {
 			>
 				
                 {/*This will iterate over all of the location venues and will populate the map with locations animation and infowindow state will change according to marker/itemlist onClick*/}
-                {locations.map((venue, i) => (
+                {locations.map((venue, index) => (
                     <CustomMarker
-                        key={i}
+                        key={index}
                         id={venue.venueId}
                         position={venue.venuePosition}
                         title={venue.venueName}
