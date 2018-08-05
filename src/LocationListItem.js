@@ -4,21 +4,20 @@ class LocationListItem extends Component {
 
 
     venueClicked = () => {
-        this.props.venueClicked(this.props.venueId)
+        this.props.venueClicked(this.props.venue)
     }
 
     render (){
 
         return (
-            <li
-                className = "venueItem"
-                onClick = {this.venueClicked}
-                onKeyPress = {this.venueClicked}
-                key = {this.props.venue.venueId}
-                aria-labelledby='venue list item'
-                role='list-item button'> 
-            >
-            {this.props.venue.venueName}
+            <li onClick={this.onClick}
+                onKeyPress={this.onClick}
+                className='list-item'
+                aria-labelledby='location'
+                key={this.props.venue.id}
+                tabIndex={0}
+                role='location list button'>
+                {this.props.venue.name}
             </li>
         )
     }
